@@ -1,0 +1,62 @@
+---
+name: Synchronous Validation
+menu: Examples
+---
+
+# Synchronous Validation
+
+import { Playground, Props } from 'docz';
+import { Form, Field } from '../index';
+
+<Playground>
+  <Form
+    onSubmit={(values) => {
+      console.log(values);
+    }}
+    initialValues={{ name: "", password: "" }}
+  >
+    <div>
+      <label>username: </label>
+      <Field name="name" validator={formFieldValues=>{
+            if(!formFieldValues.name)return "需要填写用户名"
+          }
+        }>
+        {({error,value,onChange,onBlur})=>(
+            <span>
+              <input 
+                placeholder="username" 
+                type="text" 
+                onChange={onChange} 
+                onBlur={onBlur}
+              />
+              <span style={{color:'red'}}>{error}</span>
+            </span>
+          )
+        }
+      </Field>
+    </div>
+    <div>
+      <label>password: </label>
+      <Field name="password" validator={(formFieldValues)=>{
+            if(!formFieldValues.password)return "需要填写密码"
+          }
+        }>
+        {({error,value,onChange,onBlur})=>(
+            <span>
+              <input 
+                placeholder="password" 
+                type="password" 
+                onChange={onChange} 
+                onBlur={onBlur}
+              />
+              <span style={{color:'red'}}>{error}</span>
+            </span>
+          )
+        }
+      </Field>
+    </div>
+
+    <button type="submit">Submit</button>
+
+  </Form>
+</Playground>

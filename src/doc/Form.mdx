@@ -1,0 +1,44 @@
+---
+name: Form
+menu: Components
+---
+
+import { Playground, Props } from 'docz';
+import { Form, Field } from '../index';
+
+# Form
+
+## Properties
+
+<Props of={Form} />
+
+## Basic usage
+
+<Playground>
+  <Form
+    onSubmit={(values) => {
+      console.log(values);
+    }}
+    
+  >
+    <div>
+      <label>username: </label>
+      <Field name="name">
+        <input
+          placeholder="username"
+          autoComplete="off"
+        />
+      </Field>
+    </div>
+    <div>
+      <label>password: </label>
+      <Field name="password">
+        <input placeholder="password" type="password" autoComplete="off" />
+      </Field>
+    </div>
+
+    <button type="submit">Submit</button>
+
+  </Form>
+
+</Playground>

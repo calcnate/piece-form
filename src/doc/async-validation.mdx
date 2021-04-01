@@ -1,0 +1,52 @@
+---
+name: Asynchronous Validation
+menu: Examples
+---
+
+# Asynchronous validation
+
+import { Playground, Props } from 'docz';
+import { Form, Field } from '../index';
+
+<Playground>
+  <Form
+    onSubmit={(values) => {
+      console.log(values);
+    }}
+    initialValues={{ name: "" }}
+  >
+    <div>
+      <label>username: </label>
+      <Field name="name" validator={formFieldValues=>{
+          return new Promise((resolve,rejcet)=>{
+            setTimeout(()=>{
+              console.log('currnet value:',formFieldValues.name)
+              if(['Tony','Jhon','Taylor'].indexOf(formFieldValues.name)>-1){
+                resolve('This name has been used')
+              }
+              else{
+                resolve('')
+              }
+            },2000)
+          })
+        }}>
+        {({error,value,onChange,onBlur,validating})=>(
+            <span>
+              <input 
+                placeholder="username" 
+                type="text" 
+                onChange={onChange} 
+                onBlur={onBlur}
+              />
+              {validating&&<span>validating...</span>}
+              <span style={{color:'red'}}>{error}</span>
+            </span>
+          )
+        }
+      </Field>
+    </div>
+
+    <button type="submit">Submit</button>
+
+  </Form>
+</Playground>
