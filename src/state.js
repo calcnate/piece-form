@@ -52,9 +52,6 @@ function createFormState({ initialValues, onSubmit }) {
   }
 
   function runValidation(name) {
-    if (!formState.fields[name].modifield) {
-      return Promise.resolve();
-    }
     formState.errors[name] = undefined;
     const fieldValidator = formState.fields[name].validator;
     if (fieldValidator) {
@@ -108,9 +105,12 @@ function createFormState({ initialValues, onSubmit }) {
 
   function handleBlur(name, value) {
     formState.fields[name].touched = true;
-    runValidation(name).then(() => {
-      notifyFieldListeners(name);
-    });
+    const modified = formState.fields[name].modified;
+    if (modified) {
+      runValidation(name).then(() => {
+        notifyFieldListeners(name);
+      });
+    }
   }
 
   function handleChange(name, value) {
@@ -133,7 +133,7 @@ function createFormState({ initialValues, onSubmit }) {
       error: errors[name],
       value: values[name],
       initialValue: initialValues && initialValues[name],
-      validating: field.inValidating,
+      validating: field.inValidating.toString(),
     };
   }
 
