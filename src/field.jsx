@@ -4,10 +4,10 @@ import { useFormContext } from './context';
 import PropTypes from 'prop-types';
 
 function Field(props) {
-  const { name, validator, children, dependencies } = props;
+  const { name, validator, children } = props;
   const { handleChange, handleBlur, initialValues } = useFormContext();
   const initialvalue = initialValues && initialValues[name];
-  const fieldState = useField(name, validator, dependencies, initialvalue);
+  const fieldState = useField(name, validator, initialvalue);
 
   const fieldProps = {
     onChange: e => {

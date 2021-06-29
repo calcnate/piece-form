@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from './context';
 
-function useField(name, validator, dependencies, initialValue) {
+function useField(name, validator, initialValue) {
   const { registerField } = useFormContext();
 
   const [state, setstate] = React.useState({
@@ -9,10 +9,10 @@ function useField(name, validator, dependencies, initialValue) {
   });
 
   React.useEffect(() => {
-    registerField(name, validator, dependencies, newState => {
+    registerField(name, validator, newState => {
       setstate(newState);
     });
-  }, [name, validator, dependencies, registerField]);
+  }, [name, validator, registerField]);
 
   return state;
 }

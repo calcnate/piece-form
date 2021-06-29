@@ -16,7 +16,7 @@ function createFormState({ initialValues, onSubmit }) {
   const asyncValidationPromises = {};
   let asyncValidationkey = 0;
 
-  function registerField(name, validator, dependencies, subscriber) {
+  function registerField(name, validator, subscriber) {
     formState.fields[name] = {
       inValidating: 0, //number of running validator
       touched: false,
@@ -29,19 +29,6 @@ function createFormState({ initialValues, onSubmit }) {
     }
     const index = fieldSubscribers[name].index++;
     fieldSubscribers[name].entries[index] = subscriber;
-
-    if (dependencies) {
-      dependencies.forEach(dependency => {
-        let dependantFieldSubscribers = formState.fieldSubscribers[dependency];
-        if (!dependantFieldSubscribers) {
-          dependantFieldSubscribers = { index: 1, entries: {} };
-        }
-        const index = dependantFieldSubscribers.index++;
-        dependantFieldSubscribers.entries[index] = function () {
-          runValidation(name);
-        };
-      });
-    }
 
     formState.values[name] = initialValues && initialValues[name];
   }
@@ -67,12 +54,6 @@ function createFormState({ initialValues, onSubmit }) {
               return '';
             }
             formState.errors[name] = error;
-            console.log(
-              'current validating',
-              formState.fields[name].inValidating,
-              'current error:',
-              error
-            );
             return error;
           })
           .finally(() => {

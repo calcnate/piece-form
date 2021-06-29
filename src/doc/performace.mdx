@@ -1,0 +1,35 @@
+---
+name: Performance
+menu: Examples
+---
+
+# Performance
+
+import { Playground, Props } from 'docz';
+import { Form, Field } from '../index';
+
+<Playground>
+  {() => {
+    const arr = [];
+    for (let i = 0; i < 2000; i++) {
+      arr.push(i);
+    }
+    return (
+      <Form
+        onSubmit={values => {
+          console.log(values);
+        }}
+      >
+        {arr.map(item => (
+          <div key={item}>
+            <label>{item}: </label>
+            <Field name={String(item)}>
+              <input />
+            </Field>
+          </div>
+        ))}
+        <button type="submit">Submit</button>
+      </Form>
+    );
+  }}
+</Playground>
